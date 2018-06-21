@@ -1,3 +1,3 @@
 export default {
-  id: 'testID'
+  id: 'contract1',
 };

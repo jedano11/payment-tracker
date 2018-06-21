@@ -27,7 +27,9 @@ export default class CollectionReference {
   }
 
   async add(data) {
-    const id = generateIdForRecord();
+    const id = data.id || generateIdForRecord();
+    data.id = id;
+
     const dataNode = getOrSetDataNode(this._data, '__doc__', id);
     const ref = new DocumentReference(id, dataNode, this);
 
@@ -59,7 +61,7 @@ export default class CollectionReference {
   onSnapshot(onNext) {
     onNext(querySnapshot(this._data, this));
 
-    return () => {};
+    return () => { };
   }
 
   orderBy(...args) {

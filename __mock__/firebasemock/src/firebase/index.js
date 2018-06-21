@@ -3,7 +3,7 @@ import Firestore from './firestore';
 
 export default class MockFirebase {
   constructor(data) {
-    this._data = data;
+    this.data = data;
     this.firestore.FieldValue = new FieldValue();
   }
 
@@ -12,6 +12,6 @@ export default class MockFirebase {
   }
 
   firestore() {
-    return new Firestore(this._data);
+    return new Firestore(this.data);
   }
 }

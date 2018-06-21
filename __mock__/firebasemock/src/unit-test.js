@@ -9,7 +9,7 @@ import MockFirebase from './';
 import QuerySnapshot from './firebase/firestore/query-snapshot';
 import Query from './firebase/firestore/query';
 import firebase from 'firebase';
-import fixtureData from './utils/test-helpers/fixture-data';
+import fixtureData from './utils/test-helpers/mock-data';
 
 let mockFirebase;
 
