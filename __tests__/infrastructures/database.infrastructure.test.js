@@ -33,7 +33,7 @@ describe('DatabaseInfrastructure init', () => {
 
 // CREATE TESTS
 describe('DatabaseInfrastructure create', () => {
-  const testObject = {
+  const expectedObject = {
     currentTime: new Date().getTime(),
   };
   let createdData = null;
@@ -41,14 +41,14 @@ describe('DatabaseInfrastructure create', () => {
 
   beforeAll(async () => {
     createdData = await databaseInfrastructure.create(
-      testObject,
+      expectedObject,
       CREATE_TEST_COLLECTION_KEY,
     );
   });
 
   it('should fail if DatabaseInfrastructure is not yet initialized', () => {
     const failingCreate = failingDatabaseInfrastructure.create(
-      testObject,
+      expectedObject,
       CREATE_TEST_COLLECTION_KEY,
     );
 
@@ -98,6 +98,12 @@ describe('DatabaseInfrastructure read', () => {
     readData = await databaseInfrastructure.read(TEST_COLLECTION_KEY);
   });
 
+  it('should fail if DatabaseInfrastructure is not yet initialized', () => {
+    const failingRead = failingDatabaseInfrastructure.read(TEST_COLLECTION_KEY);
+
+    expect(failingRead).rejects.toEqual(new Error(ErrorMessages.noPrefix));
+  });
+
   it('if valid collection key is passed it should return an object array', () => {
     expect(typeof readData).toBe('object');
     expect(Array.isArray(readData)).toBe(true);
@@ -124,6 +130,16 @@ describe('DatabaseInfrastructure update', () => {
     isImmortal: true,
   };
   let updateRef = null;
+
+  it('should fail if DatabaseInfrastructure is not yet initialized', () => {
+    const failingUpdate = failingDatabaseInfrastructure.update(
+      updateProperties,
+      TEST_COLLECTION_KEY,
+      ID_TO_BE_UPDATED,
+    );
+
+    expect(failingUpdate).rejects.toEqual(new Error(ErrorMessages.noPrefix));
+  });
 
   // data initialized in `../../__mock__/data/testdata` see {existingList}
   it('should update/add the specific properties passed', async () => {
@@ -225,7 +241,7 @@ describe('DatabaseInfrastructure delete', () => {
   it('should fail if DatabaseInfrastructure is not yet initialized', () => {
     const failingDelete = failingDatabaseInfrastructure.delete(
       TEST_COLLECTION_KEY,
-      'INVALID_ID',
+      ID_TO_BE_DELETED,
     );
 
     expect(failingDelete).rejects.toEqual(new Error(ErrorMessages.noPrefix));
