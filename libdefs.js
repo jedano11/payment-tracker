@@ -46,3 +46,6 @@ declare module 'react-devtools' {
 declare module 'core-js' {
   declare module.exports: any;
 }
+declare module 'react-native-firebase' {
+  declare module.exports: any;
+}

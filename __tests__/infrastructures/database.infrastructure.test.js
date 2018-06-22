@@ -1,4 +1,4 @@
-import MockFirebase from '../../__mock__/firebasemock/src';
+import MockFirebase from '../../__mock__/firebasemock/src/index';
 import DatabaseInfrastructure from '../../app/infrastructures/database-infrastructure/database.infrastructure';
 import ErrorMessages from '../../app/infrastructures/error.messages';
 import mockData from '../../__mock__/data/testdata';
