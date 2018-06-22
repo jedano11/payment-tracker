@@ -17,7 +17,8 @@
       "flow focus-check",
       "eslint --fix",
       "git add"
-    ]
+    ],
+    "app/infrastructures/**": "jest __tests__/infrastructures"
   },
   "dependencies": {
     "core-js": "^2.5.7",
