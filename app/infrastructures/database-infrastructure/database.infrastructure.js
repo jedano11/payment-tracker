@@ -1,4 +1,4 @@
-import { fromFirebaseObj } from '../../utils/firebase.object.mapper';
+import { fromFirebaseObj } from './utils/firebase.object.mapper';
 import ErrorMessages from '../error.messages';
 
 class DatabaseInfrastructure {
