@@ -17,6 +17,9 @@
     "airbnb",
     "plugin:prettier/recommended"
   ],
+  "env": {
+    "jest": true
+  },
   "rules": {
     "accessor-pairs": 2,
     "array-bracket-newline": 2,
