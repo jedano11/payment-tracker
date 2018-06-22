@@ -116,6 +116,10 @@ describe('DatabaseInfrastructure read', () => {
     expect(invalidRead).toEqual([]);
   });
 
+  it('should contain the exact amount of data in the mock', () => {
+    expect(readData.length).toBe(4);
+  });
+
   it('should not contain deleted property', () => {
     readData.forEach(data => expect(data).not.toHaveProperty('deleted'));
   });
