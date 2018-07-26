@@ -13,6 +13,10 @@ export default {
   noUserData: 'No user data',
   noReference: 'No reference',
   noPrefix: 'No prefix has set for database',
+  noPhoneSent: 'Phone number not verified.',
+  noStandData: 'No stand data',
+  snapshotNotExist: 'Snapshot does not exist',
+  activeReservationExist: 'You cant reserve more than one reservation!',
 };
 
 export const mapError = (error: Error) => {
