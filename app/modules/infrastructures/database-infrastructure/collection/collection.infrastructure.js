@@ -91,7 +91,24 @@ class CollectionInfrastructure {
     return createPromise;
   };
 
-  read = async () => {
+  readDoc = async (id: string) => {
+    const doc = await this.getCollection().doc(id);
+    const snapshot = await doc.get();
+
+    InfrastructureVerifyer.verifySnapshot(snapshot);
+    const data = await CollectionDenormalizer.getData(
+      snapshot,
+      this.getInfrastructureHelpers(),
+      this.collectionOptions,
+    );
+
+    return {
+      id,
+      ...data,
+    };
+  };
+
+  readCollection = async () => {
     const ref = this.getCollection().where('deleted', '==', false);
     const snapshot = await ref.get();
 
@@ -158,23 +175,6 @@ class CollectionInfrastructure {
     if (typeof offset === 'undefined') {
       await this.init();
     }
-  };
-
-  getDoc = async (id: string) => {
-    const doc = await this.getCollection().doc(id);
-    const snapshot = await doc.get();
-
-    InfrastructureVerifyer.verifySnapshot(snapshot);
-    const data = await CollectionDenormalizer.getData(
-      snapshot,
-      this.getInfrastructureHelpers(),
-      this.collectionOptions,
-    );
-
-    return {
-      id,
-      ...data,
-    };
   };
 
   getInfrastructureHelpers = () => {

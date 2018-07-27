@@ -12,13 +12,13 @@ describe('CollectionInfrastructure Delete', () => {
   );
 
   beforeAll(async () => {
-    const readData = await collectionInfra.read();
+    const readData = await collectionInfra.readCollection();
 
     expect(readData.length).toBe(6);
     readData.forEach(data => expect(data).not.toHaveProperty('deleted'));
   });
 
-  it('Object deleted should no longer be queried by CollectionInfrastructure.read', async () => {
+  it('Object deleted should no longer be queried by CollectionInfrastructure.getCollection', async () => {
     const idToDelete = 'DELETE_THIS';
 
     await collectionInfra.delete(idToDelete);

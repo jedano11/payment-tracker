@@ -11,7 +11,7 @@ describe('CollectionInfrastructure Read', () => {
   const collectionInfra = new CollectionInfrastructure(firebase, READ_KEY);
 
   it('should read all data that have flag deleted=false', async () => {
-    const read = await collectionInfra.read();
+    const read = await collectionInfra.readCollection();
 
     expect(read.length).toBe(6);
   });
