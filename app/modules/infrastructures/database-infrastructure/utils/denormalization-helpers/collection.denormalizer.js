@@ -6,20 +6,20 @@ import CollectionOption from './collection.option';
 class CollectionDenormalizer {
   getData = async (
     document: Object,
-    getInfrastructureHelpers: Object,
+    getFirestoreProviders: Object,
     collectionOptions: CollectionOption,
   ) => {
     const data = document.data();
     const { id } = document;
     const subCollections = await this.getSubCollections(
       id,
-      getInfrastructureHelpers,
+      getFirestoreProviders,
       collectionOptions,
     );
     const references = await ReferenceResolver.getReferencedData(data);
     const denormalizations = await this.denormalize(
       id,
-      getInfrastructureHelpers,
+      getFirestoreProviders,
       collectionOptions,
     );
 
@@ -34,11 +34,11 @@ class CollectionDenormalizer {
 
   denormalize = (
     id: string,
-    infrastructureHelpers: Object,
+    getFirestoreProviders: Object,
     collectionOptions: CollectionOption,
   ) => {
     const { denormalizationOptions } = collectionOptions;
-    const { getCollection, getStore } = infrastructureHelpers;
+    const { getCollection, getStore } = getFirestoreProviders;
 
     const denormalizationPromise: Promise<any> = new Promise(
       async (resolve: Function) => {
@@ -64,7 +64,7 @@ class CollectionDenormalizer {
             }
 
             const promises = await snapshot.docs.map((obj: Object) =>
-              this.getData(obj, infrastructureHelpers, collectionOptions),
+              this.getData(obj, getFirestoreProviders, collectionOptions),
             );
             const firebaseObj = await Promise.all(promises);
 
@@ -106,7 +106,7 @@ class CollectionDenormalizer {
 
   getSubCollections = (
     id: string,
-    infrastructureHelpers: Object,
+    getFirestoreProviders: Object,
     collectionOptions: CollectionOption,
   ): Promise<any> => {
     const { subCollectionKeys } = collectionOptions;
@@ -117,14 +117,14 @@ class CollectionDenormalizer {
       ) {
         return resolve({});
       }
-      const { getCollection } = infrastructureHelpers;
+      const { getCollection } = getFirestoreProviders;
       const collections = await subCollectionKeys.map(async (key: string) => {
         const subCollection = await getCollection()
           .doc(id)
           .collection(key)
           .get();
         const promises = await subCollection.docs.map((obj: Object) =>
-          this.getData(obj, infrastructureHelpers, collectionOptions),
+          this.getData(obj, getFirestoreProviders, collectionOptions),
         );
 
         const firebaseObj = await Promise.all(promises);

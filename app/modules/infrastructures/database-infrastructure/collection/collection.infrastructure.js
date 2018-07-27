@@ -59,7 +59,7 @@ class CollectionInfrastructure {
     const snapShot = await addRef.get();
     const created = await CollectionDenormalizer.getData(
       snapShot,
-      this.getInfrastructureHelpers(),
+      this.getFirestoreProviders(),
       this.collectionOptions,
     );
     const { id } = snapShot;
@@ -98,7 +98,7 @@ class CollectionInfrastructure {
     InfrastructureVerifyer.verifySnapshot(snapshot);
     const data = await CollectionDenormalizer.getData(
       snapshot,
-      this.getInfrastructureHelpers(),
+      this.getFirestoreProviders(),
       this.collectionOptions,
     );
 
@@ -118,7 +118,7 @@ class CollectionInfrastructure {
     const promises = snapshot.docs.map((obj: Object) =>
       CollectionDenormalizer.getData(
         obj,
-        this.getInfrastructureHelpers(),
+        this.getFirestoreProviders(),
         this.collectionOptions,
       ),
     );
@@ -177,7 +177,7 @@ class CollectionInfrastructure {
     }
   };
 
-  getInfrastructureHelpers = () => {
+  getFirestoreProviders = () => {
     const helpers = {
       getCollection: this.getCollection,
       getStore: this.getStore,
