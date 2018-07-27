@@ -1,6 +1,6 @@
 import MockFirebase from '../../../__mock__/firebasemock/src/index';
 import mockData from '../../../__mock__/data/testdata';
-import CollectionInfrastructure from '../../../app/infrastructures/database-infrastructure/collection/collection.infrastructure';
+import CollectionInfrastructure from '../../../app/modules/infrastructures/database-infrastructure/collection/collection.infrastructure';
 
 const firebase = new MockFirebase(mockData);
 

@@ -1,5 +1,5 @@
-import CollectionOptions from '../../../app/infrastructures/database-infrastructure/utils/denormalization-helpers/collection.option';
-import DenormalizationOption from '../../../app/infrastructures/database-infrastructure/utils/denormalization-helpers/collection.denormalization.option';
+import CollectionOptions from '../../../app/modules/infrastructures/database-infrastructure/utils/denormalization-helpers/collection.option';
+import DenormalizationOption from '../../../app/modules/infrastructures/database-infrastructure/utils/denormalization-helpers/collection.denormalization.option';
 
 describe('CollectionOptions constructor test', () => {
   it('should accept an array of string and an array of CollectionDenormalizationOption as constructor args', () => {

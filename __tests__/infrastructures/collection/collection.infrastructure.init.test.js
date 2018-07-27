@@ -3,7 +3,7 @@ import mockData from '../../../__mock__/data/testdata';
 import CollectionInfrastructure, {
   SYSTEM,
   SERVER_REF,
-} from '../../../app/infrastructures/database-infrastructure/collection/collection.infrastructure';
+} from '../../../app/modules/infrastructures/database-infrastructure/collection/collection.infrastructure';
 
 const firebase = new MockFirebase(mockData);
 
