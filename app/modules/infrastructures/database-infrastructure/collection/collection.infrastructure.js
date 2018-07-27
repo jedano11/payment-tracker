@@ -55,7 +55,7 @@ class CollectionInfrastructure {
       deleted: false,
     };
 
-    const addRef = await this.createOrUpdate(newItem);
+    const addRef = await this.createWithOrWithoutId(newItem);
     const snapShot = await addRef.get();
     const created = await CollectionDenormalizer.getData(
       snapShot,
@@ -70,7 +70,7 @@ class CollectionInfrastructure {
     };
   };
 
-  createOrUpdate = (newItem: Object) => {
+  createWithOrWithoutId = (newItem: Object) => {
     const createPromise: Promise<any> = new Promise(
       async (resolve: Function) => {
         if (newItem.id) {
