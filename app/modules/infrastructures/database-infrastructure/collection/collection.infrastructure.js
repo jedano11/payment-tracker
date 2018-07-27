@@ -38,6 +38,7 @@ class CollectionInfrastructure {
     const data = snapshot.data();
     const { serverTimestamp } = data;
 
+    InfrastructureVerifyer.verifyServerTimestamp(serverTimestamp);
     this.timestampOffset =
       new Date().getTime() - new Date(serverTimestamp).getTime();
 
@@ -45,8 +46,6 @@ class CollectionInfrastructure {
   };
 
   create = async (object: Object) => {
-    await this.verifyServerOffset(this.timestampOffset);
-
     const serverTimestamp = this.getServerTimestamp();
     const newItem = {
       ...object,
@@ -128,8 +127,6 @@ class CollectionInfrastructure {
   };
 
   update = async (id: string, updatedObject: Object) => {
-    await this.verifyServerOffset(this.timestampOffset);
-
     const ref = this.getCollection().doc(id);
     const snapshot = await ref.get();
 
@@ -169,12 +166,6 @@ class CollectionInfrastructure {
     await ref.set(next);
 
     return true;
-  };
-
-  verifyServerOffset = async (offset: number) => {
-    if (typeof offset === 'undefined') {
-      await this.init();
-    }
   };
 
   getFirestoreProviders = () => {

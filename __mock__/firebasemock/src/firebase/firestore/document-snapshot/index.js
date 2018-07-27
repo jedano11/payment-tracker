@@ -61,6 +61,7 @@ export default class DocumentSnapshot {
 
     delete data.__isDirty__;
     delete data.__collection__;
+    data.serverTimestamp = 123123;
 
     return data;
   }

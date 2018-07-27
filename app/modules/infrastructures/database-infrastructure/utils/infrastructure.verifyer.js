@@ -12,6 +12,12 @@ class InfrastructureVerifyer {
       throw new Error(ErrorMessages.alreadyDeleted);
     }
   };
+
+  verifyServerTimestamp = (timestamp: any) => {
+    if (isNaN(timestamp) || typeof timestamp === 'undefined') {
+      throw new Error(ErrorMessages.noServerTime);
+    }
+  };
 }
 
 export default new InfrastructureVerifyer();

@@ -16,7 +16,7 @@ export default {
   noPhoneSent: 'Phone number not verified.',
   noStandData: 'No stand data',
   snapshotNotExist: 'Snapshot does not exist',
-  activeReservationExist: 'You cant reserve more than one reservation!',
+  noServerTime: 'Cannot initialize server time offset!',
 };
 
 export const mapError = (error: Error) => {
