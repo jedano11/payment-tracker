@@ -177,6 +177,27 @@ class CollectionInfrastructure {
     return helpers;
   };
 
+  getSubCollection = async (id: string, name: string) => {
+    const subCollectionRef = await this.getCollection()
+      .doc(id)
+      .collection(name);
+    const snapshot = await subCollectionRef.get();
+
+    if (snapshot.empty) {
+      return [];
+    }
+    const promises = snapshot.docs.map((obj: Object) =>
+      CollectionDenormalizer.getData(
+        obj,
+        this.getFirestoreProviders(),
+        this.collectionOptions,
+      ),
+    );
+    const firebaseObj = await Promise.all(promises);
+
+    return fromFirebaseObj(firebaseObj);
+  };
+
   getStore = () => this.firebase.firestore();
 
   getCollection = () => this.getStore().collection(this.collectionName);
