@@ -1,4 +1,4 @@
-import DenormalizationOption from '../../../app/modules/infrastructures/database-infrastructure/utils/denormalization-helpers/collection.denormalization.option';
+import DenormalizationOption from '../../../app/modules/infrastructures/database.infrastructure/utils/denormalization-helpers/collection.denormalization.option';
 
 describe('CollectionDenormalizationOption test', () => {
   it('accepts 3 string arguments', () => {
