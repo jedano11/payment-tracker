@@ -14,7 +14,7 @@ class InfrastructureVerifyer {
   };
 
   verifyServerTimestamp = (timestamp: any) => {
-    if (isNaN(timestamp) || typeof timestamp === 'undefined') {
+    if (Number.isNaN(timestamp) || typeof timestamp === 'undefined') {
       throw new Error(ErrorMessages.noServerTime);
     }
   };

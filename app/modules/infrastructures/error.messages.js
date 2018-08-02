@@ -10,13 +10,12 @@ export default {
   notVerified: 'Not verified',
   noAccount:
     'There is no user record corresponding to this identifier. The user may have been deleted.',
-  noUserData: 'No user data',
   noReference: 'No reference',
   noPrefix: 'No prefix has set for database',
   noPhoneSent: 'Phone number not verified.',
-  noStandData: 'No stand data',
   snapshotNotExist: 'Snapshot does not exist',
   noServerTime: 'Cannot initialize server time offset!',
+  noUserData: 'No user data',
 };
 
 export const mapError = (error: Error) => {

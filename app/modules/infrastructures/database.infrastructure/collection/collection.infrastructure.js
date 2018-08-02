@@ -1,7 +1,7 @@
 import { fromFirebaseObj } from '../utils/firebase.object.mapper';
 import CollectionOption from '../utils/denormalization-helpers/collection.option';
 import InfrastructureVerifyer from '../utils/infrastructure.verifyer';
-import CollectionDenormalizer from '../utils/denormalization-helpers/collection.denormalizer';
+import DocumentExpander from '../utils/denormalization-helpers/document.expander';
 
 export const SYSTEM = 'SYSTEM';
 export const SERVER_REF = 'SERVER_REF';
@@ -34,15 +34,15 @@ class CollectionInfrastructure {
       serverTimestamp: this.firebase.firestore.FieldValue.serverTimestamp(),
     });
 
-    const snapshot = await serverRef.get();
-    const data = snapshot.data();
+    const documentSnapshot = await serverRef.get();
+    const data = documentSnapshot.data();
     const { serverTimestamp } = data;
 
     InfrastructureVerifyer.verifyServerTimestamp(serverTimestamp);
     this.timestampOffset =
       new Date().getTime() - new Date(serverTimestamp).getTime();
 
-    return snapshot.exists;
+    return documentSnapshot.exists;
   };
 
   create = async (object: Object) => {
@@ -55,13 +55,13 @@ class CollectionInfrastructure {
     };
 
     const addRef = await this.createWithOrWithoutId(newItem);
-    const snapShot = await addRef.get();
-    const created = await CollectionDenormalizer.getData(
-      snapShot,
+    const documentSnapshot = await addRef.get();
+    const created = await DocumentExpander.getExpandedDocument(
+      documentSnapshot,
       this.getFirestoreProviders(),
       this.collectionOptions,
     );
-    const { id } = snapShot;
+    const { id } = documentSnapshot;
 
     return {
       id,
@@ -91,12 +91,12 @@ class CollectionInfrastructure {
   };
 
   readDoc = async (id: string) => {
-    const doc = await this.getCollection().doc(id);
-    const snapshot = await doc.get();
+    const docRef = await this.getCollection().doc(id);
+    const documentSnapshot = await docRef.get();
 
-    InfrastructureVerifyer.verifySnapshot(snapshot);
-    const data = await CollectionDenormalizer.getData(
-      snapshot,
+    InfrastructureVerifyer.verifySnapshot(documentSnapshot);
+    const data = await DocumentExpander.getExpandedDocument(
+      documentSnapshot,
       this.getFirestoreProviders(),
       this.collectionOptions,
     );
@@ -108,14 +108,35 @@ class CollectionInfrastructure {
   };
 
   readCollection = async () => {
-    const ref = this.getCollection().where('deleted', '==', false);
-    const snapshot = await ref.get();
+    const collectionRef = this.getCollection().where('deleted', '==', false);
+    const querySnapshot = await collectionRef.get();
 
-    if (snapshot.empty) {
+    if (querySnapshot.empty) {
       return [];
     }
-    const promises = snapshot.docs.map((obj: Object) =>
-      CollectionDenormalizer.getData(
+    const promises = querySnapshot.docs.map((obj: Object) =>
+      DocumentExpander.getExpandedDocument(
+        obj,
+        this.getFirestoreProviders(),
+        this.collectionOptions,
+      ),
+    );
+    const firebaseObj = await Promise.all(promises);
+
+    return fromFirebaseObj(firebaseObj);
+  };
+
+  readSubCollection = async (id: string, name: string) => {
+    const subCollectionRef = await this.getCollection()
+      .doc(id)
+      .collection(name);
+    const querySnapshot = await subCollectionRef.get();
+
+    if (querySnapshot.empty) {
+      return [];
+    }
+    const promises = querySnapshot.docs.map((obj: Object) =>
+      DocumentExpander.getExpandedDocument(
         obj,
         this.getFirestoreProviders(),
         this.collectionOptions,
@@ -127,12 +148,12 @@ class CollectionInfrastructure {
   };
 
   update = async (id: string, updatedObject: Object) => {
-    const ref = this.getCollection().doc(id);
-    const snapshot = await ref.get();
+    const docRef = this.getCollection().doc(id);
+    const documentSnapshot = await docRef.get();
 
-    InfrastructureVerifyer.verifySnapshot(snapshot);
+    InfrastructureVerifyer.verifySnapshot(documentSnapshot);
 
-    const prev = snapshot.data();
+    const prev = documentSnapshot.data();
 
     InfrastructureVerifyer.verifyData(updatedObject);
 
@@ -142,18 +163,18 @@ class CollectionInfrastructure {
       updatedAtMs: this.getServerTimestamp(),
     };
 
-    await ref.set(next);
+    await docRef.set(next);
 
     return next;
   };
 
   delete = async (id: string) => {
     const ref = this.getCollection().doc(id);
-    const snapshot = await ref.get();
+    const documentSnapshot = await ref.get();
 
-    InfrastructureVerifyer.verifySnapshot(snapshot);
+    InfrastructureVerifyer.verifySnapshot(documentSnapshot);
 
-    const obj = snapshot.data();
+    const obj = documentSnapshot.data();
 
     InfrastructureVerifyer.verifyData(obj);
 
@@ -175,27 +196,6 @@ class CollectionInfrastructure {
     };
 
     return helpers;
-  };
-
-  getSubCollection = async (id: string, name: string) => {
-    const subCollectionRef = await this.getCollection()
-      .doc(id)
-      .collection(name);
-    const snapshot = await subCollectionRef.get();
-
-    if (snapshot.empty) {
-      return [];
-    }
-    const promises = snapshot.docs.map((obj: Object) =>
-      CollectionDenormalizer.getData(
-        obj,
-        this.getFirestoreProviders(),
-        this.collectionOptions,
-      ),
-    );
-    const firebaseObj = await Promise.all(promises);
-
-    return fromFirebaseObj(firebaseObj);
   };
 
   getStore = () => this.firebase.firestore();

@@ -10,8 +10,7 @@ class ReferenceResolver {
         return resolve({});
       }
 
-      const references = Object.keys(refObject);
-      const resolutions = await this.resolveReferences(refObject, references);
+      const resolutions = await this.resolveReferences(refObject);
 
       return resolve(resolutions);
     });
@@ -19,22 +18,20 @@ class ReferenceResolver {
     return denormalizationPromise;
   };
 
-  resolveReferences = (
-    data: Object,
-    references: Array<string>,
-  ): Promise<any> => {
+  resolveReferences = (refObject: Object): Promise<any> => {
     const resolvePromise = new Promise(async (resolve: Function) => {
+      const references = Object.keys(refObject);
       const resolvedReferences = await references.map(async (key: string) => {
-        const field = await data[key].get();
-        const fieldData = await field.data();
-        const extraRef = await this.getReferencedData(fieldData);
-        const { id } = field;
+        const doc = await refObject[key].get();
+        const docData = doc.data();
+        const extraRef = await this.getReferencedData(docData);
+        const { id } = doc;
 
-        if (fieldData) {
-          fieldData.id = id;
+        if (docData) {
+          docData.id = id;
         }
 
-        return { ...extraRef, [key]: fieldData };
+        return { ...extraRef, [key]: docData };
       });
 
       const promisedDenormalizations = await Promise.all(resolvedReferences);

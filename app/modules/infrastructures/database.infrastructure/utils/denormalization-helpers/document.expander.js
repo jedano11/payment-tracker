@@ -4,14 +4,14 @@ import { fromFirebaseObj } from '../firebase.object.mapper';
 import CollectionOption from './collection.option';
 
 class CollectionDenormalizer {
-  getData = async (
+  getExpandedDocument = async (
     document: Object,
     getFirestoreProviders: Object,
     collectionOptions: CollectionOption,
   ) => {
     const data = document.data();
     const { id } = document;
-    const subCollections = await this.getSubCollections(
+    const subCollections = await this.filteredSubCollections(
       id,
       getFirestoreProviders,
       collectionOptions,
@@ -63,8 +63,12 @@ class CollectionDenormalizer {
               return [];
             }
 
-            const promises = await snapshot.docs.map((obj: Object) =>
-              this.getData(obj, getFirestoreProviders, collectionOptions),
+            const promises = await snapshot.docs.map((doc: Object) =>
+              this.getExpandedDocument(
+                doc,
+                getFirestoreProviders,
+                collectionOptions,
+              ),
             );
             const firebaseObj = await Promise.all(promises);
 
@@ -79,32 +83,7 @@ class CollectionDenormalizer {
     return denormalizationPromise;
   };
 
-  getReferencedFields = (data: Object): Promise<any> => {
-    const denormalizationPromise = new Promise(async (resolve: Function) => {
-      const { refs } = data;
-
-      if (typeof refs === 'undefined') {
-        resolve({});
-      }
-
-      const denormalizations = await Object.keys(refs).map(
-        async (key: string) => {
-          const field = await refs[key].get();
-          const fieldData = await field.data();
-
-          return { [key]: fieldData };
-        },
-      );
-      const promisedDenormalizations = await Promise.all(denormalizations);
-      const denormalized = Object.assign({}, ...promisedDenormalizations);
-
-      resolve(denormalized);
-    });
-
-    return denormalizationPromise;
-  };
-
-  getSubCollections = (
+  filteredSubCollections = (
     id: string,
     getFirestoreProviders: Object,
     collectionOptions: CollectionOption,
@@ -123,8 +102,12 @@ class CollectionDenormalizer {
           .doc(id)
           .collection(key)
           .get();
-        const promises = await subCollection.docs.map((obj: Object) =>
-          this.getData(obj, getFirestoreProviders, collectionOptions),
+        const promises = await subCollection.docs.map((doc: Object) =>
+          this.getExpandedDocument(
+            doc,
+            getFirestoreProviders,
+            collectionOptions,
+          ),
         );
 
         const firebaseObj = await Promise.all(promises);
