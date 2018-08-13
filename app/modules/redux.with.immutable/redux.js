@@ -9,7 +9,7 @@ import { persistCombineReducers, persistStore } from 'redux-persist';
 import immutableTransform from 'redux-persist-transform-immutable';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'remote-redux-devtools';
+import { composeWithDevTools } from 'remote-redux-devtools-sp';
 import autoMergeLevel2Immutable from './utils/automergeLevel2-immutable';
 
 export const rootConfigKey = 'root';

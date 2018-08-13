@@ -1,0 +1,8 @@
+{
+  "*.js": [
+    "flow focus-check",
+    "eslint --fix",
+    "git add"
+  ],
+  "app/modules/infrastructures/**": "jest __tests__/infrastructures"
+}

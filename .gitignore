@@ -60,4 +60,3 @@ buck-out/
 
 # Pod
 ios/Pods
-ios/Podfile.lock
