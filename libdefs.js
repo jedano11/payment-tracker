@@ -31,7 +31,7 @@ declare module 'redux-persist/es/integration/react' {
 declare module 'redux-thunk' {
   declare module.exports: any;
 }
-declare module 'remote-redux-devtools' {
+declare module 'remote-redux-devtools-sp' {
   declare module.exports: any;
 }
 declare module './utils/automergeLevel2-immutable' {

@@ -12,20 +12,12 @@
     "redux-devtool": "remotedev",
     "precommit": "lint-staged"
   },
-  "lint-staged": {
-    "*.js": [
-      "flow focus-check",
-      "eslint --fix",
-      "git add"
-    ],
-    "app/modules/infrastructures/**": "jest __tests__/infrastructures"
-  },
   "dependencies": {
     "core-js": "^2.5.7",
     "immutable": "^3.8.2",
-    "react": "16.3.1",
+    "react": "^16.4.1",
     "react-devtools": "^3.2.3",
-    "react-native": "0.55.4",
+    "react-native": "^0.56.0",
     "react-native-console-time-polyfill": "0.0.6",
     "react-native-firebase": "^4.2.0",
     "react-navigation": "2.2.5",
@@ -36,13 +28,13 @@
     "redux-persist": "^5.10.0",
     "redux-persist-transform-immutable": "^5.0.0",
     "redux-thunk": "^2.3.0",
-    "remote-redux-devtools": "^0.5.12",
+    "remote-redux-devtools-sp": "^0.5.13",
     "reselect": "^3.0.1"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
     "babel-jest": "23.0.1",
-    "babel-preset-react-native": "4.0.0",
+    "babel-preset-react-native": "^5.0.2",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-airbnb-base": "^12.1.0",
@@ -52,7 +44,7 @@
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.9.1",
     "eslint-plugin-react-native": "^3.2.1",
-    "flow-bin": "^0.67.1",
+    "flow-bin": "^0.75.0",
     "husky": "^0.14.3",
     "jest": "23.1.0",
     "lint-staged": "^7.2.0",
