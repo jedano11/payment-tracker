@@ -2,11 +2,11 @@ import { NavigationActions } from 'react-navigation';
 
 let navigator = null;
 
-function setTopLevelNavigator(navigatorRef: ?Object) {
+const setTopLevelNavigator = (navigatorRef: ?Object) => {
   navigator = navigatorRef;
-}
+};
 
-function navigate(routeName: string, params: Object) {
+const navigate = (routeName: string, params: Object) => {
   if (!navigator) {
     return;
   }
@@ -17,11 +17,26 @@ function navigate(routeName: string, params: Object) {
       params,
     }),
   );
-}
+};
+
+const back = (key: ?string) => {
+  if (!navigator) {
+    return;
+  }
+
+  navigator.dispatch(
+    NavigationActions.back({
+      key,
+    }),
+  );
+};
 
 // add other navigation functions that you need and export them
 
-export default {
+const NavigationService = {
   navigate,
+  back,
   setTopLevelNavigator,
 };
+
+export default NavigationService;
