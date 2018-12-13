@@ -22,3 +22,6 @@ declare module 'validator' {
 declare module 'react-native-extended-stylesheet' {
   declare module.exports: any;
 }
+declare module 'react-navigation' {
+  declare module.exports: any;
+}

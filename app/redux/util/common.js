@@ -13,7 +13,7 @@
 export const arrayToObject = (
   arr: Object[],
   key: string = 'id',
-  mapFunction: Object => Object = obj => obj,
+  mapFunction: Function = obj => obj,
 ): Object =>
   arr.reduce((accumulator, obj) => {
     if (obj[key]) {
