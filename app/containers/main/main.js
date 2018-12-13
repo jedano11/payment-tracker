@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
-import { View, Text, Platform, TouchableOpacity } from 'react-native';
+import { View, Text, Platform } from 'react-native';
+import moment from 'moment';
 
 import { Screen } from '../../components/screen';
+import { StopWatch, CountDown } from '../../components/timer';
 import styles from './styles';
-import NavigationService from '../../navigation/navigationService';
 
 const instructions = Platform.select({
   ios: `Press Cmd+R to reload,${'\n'}Cmd+D or shake for dev menu`,
@@ -12,11 +13,7 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-export default class Home extends PureComponent<*> {
-  navigateToMain = () => {
-    NavigationService.navigate('Main');
-  };
-
+class Main extends PureComponent<*> {
   render() {
     return (
       <Screen>
@@ -24,11 +21,13 @@ export default class Home extends PureComponent<*> {
           <Text style={styles.welcome}>Welcome to React Native!</Text>
           <Text style={styles.instructions}>To get started, edit App.js</Text>
           <Text style={styles.instructions}>{instructions}</Text>
-          <TouchableOpacity onPress={this.navigateToMain}>
-            <Text>Go to Main</Text>
-          </TouchableOpacity>
+          <CountDown deadline={new Date()} />
+          <CountDown deadline={moment().hour(20)} />
+          <StopWatch />
         </View>
       </Screen>
     );
   }
 }
+
+export default Main;

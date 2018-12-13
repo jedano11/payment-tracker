@@ -6,7 +6,7 @@ const setTopLevelNavigator = (navigatorRef: ?Object) => {
   navigator = navigatorRef;
 };
 
-const navigate = (routeName: string, params: Object) => {
+const navigate = (routeName: string, params: ?Object) => {
   if (!navigator) {
     return;
   }

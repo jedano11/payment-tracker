@@ -6,7 +6,7 @@ type Props = {
   style?: Object,
 };
 
-export default class Screen extends PureComponent<Props> {
+class Screen extends PureComponent<Props> {
   static defaultProps = {
     style: {},
   };
@@ -14,6 +14,8 @@ export default class Screen extends PureComponent<Props> {
   render() {
     const { style } = this.props;
 
-    return <View style={[styles.container, style]} {...this.props} />;
+    return <View {...this.props} style={[styles.container, style]} />;
   }
 }
+
+export default Screen;
