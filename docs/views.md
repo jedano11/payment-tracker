@@ -1,6 +1,6 @@
 # Views
 
-[<home](index.md) - [styling>](styling.md)
+[home](index.md) - [styling>](styling.md)
 
 ## Components and Containers
 
@@ -23,7 +23,7 @@ import { View, Text, Platform } from 'react-native';
 import { Screen } from '../../components/screen';
 import styles from './styles';
 
-export default class Home extends PureComponent<*> {
+class Home extends PureComponent<*> {
   render() {
     return (
       <Screen>
@@ -34,11 +34,14 @@ export default class Home extends PureComponent<*> {
     );
   }
 }
+
+export default Home;
 ```
 
 ## Naming & Directory Structure
 
 - TODO: directory naming
+- `export default` should be at the bottom of the file
 - Don't name your component file index.js
 - Files should have the same name as the class. SideMenu should be in sideMenu.js
 - The folder should have index.js. It is used to export your component.
@@ -57,9 +60,11 @@ export { EmailInput, PasswordInput };
 `components/input/emailInput.js`
 
 ```
-export default class EmailInput extends PureComponent<*> {
+class EmailInput extends PureComponent<*> {
   ...
 }
+
+export default EmailInput;
 ```
 
 usage:

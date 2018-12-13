@@ -12,7 +12,7 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-export default class Home extends PureComponent<*> {
+class Home extends PureComponent<*> {
   navigateToMain = () => {
     NavigationService.navigate('Main');
   };
@@ -32,3 +32,5 @@ export default class Home extends PureComponent<*> {
     );
   }
 }
+
+export default Home;

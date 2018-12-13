@@ -1,6 +1,6 @@
 # Styling
 
-[<views](views.md) - [home](index.md) - [redux>](redux.md)
+[<views](views.md) - [home](index.md) - [navigation>](navigation.md)
 
 Please read [React Native Extended StyleSheet](https://github.com/vitalets/react-native-extended-stylesheet) docs.
 

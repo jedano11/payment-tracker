@@ -40,7 +40,7 @@ const getText = (date: Date | string) => {
   return `-${getString()}`;
 };
 
-export default class CountDown extends PureComponent<Props, State> {
+class CountDown extends PureComponent<Props, State> {
   state = {
     text: '00:00:00',
   };
@@ -61,3 +61,5 @@ export default class CountDown extends PureComponent<Props, State> {
     return <Text {...this.props}>{text}</Text>;
   }
 }
+
+export default CountDown;

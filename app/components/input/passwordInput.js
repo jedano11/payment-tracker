@@ -5,10 +5,12 @@ type Props = {
   showPassword: boolean,
 };
 
-export default class PasswordInput extends PureComponent<Props> {
+class PasswordInput extends PureComponent<Props> {
   render() {
     const { showPassword } = this.props;
 
     return <TextInput secureTextEntry={showPassword} {...this.props} />;
   }
 }
+
+export default PasswordInput;

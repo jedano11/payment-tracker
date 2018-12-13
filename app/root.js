@@ -13,7 +13,7 @@ type Props = {};
 
 EStyleSheet.build(theme);
 
-export default class App extends PureComponent<Props> {
+class App extends PureComponent<Props> {
   render() {
     return (
       <Listeners>
@@ -26,3 +26,5 @@ export default class App extends PureComponent<Props> {
     );
   }
 }
+
+export default App;

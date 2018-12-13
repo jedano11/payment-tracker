@@ -12,7 +12,7 @@ type State = {
   seconds: number,
 };
 
-export default class StopWatch extends PureComponent<Props, State> {
+class StopWatch extends PureComponent<Props, State> {
   static defaultProps = {
     startingSeconds: 0,
   };
@@ -44,3 +44,5 @@ export default class StopWatch extends PureComponent<Props, State> {
     return <Text {...this.props}>{text}</Text>;
   }
 }
+
+export default StopWatch;
