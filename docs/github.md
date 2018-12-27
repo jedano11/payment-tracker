@@ -115,6 +115,55 @@ Project has 5 columns
 - Done
   Card is automatically moved when you close the issue.
 
+## Branch
+
+Based on [Git Flow Workflow](https://leanpub.com/git-flow/read)
+
+### Branch types
+
+#### master
+
+Should be always deployable.
+It's merged from develop branch when deploy is needed.
+Can not be merged from any other branches expect for develop branch.
+Can not push any commits here directly.
+
+#### develop
+
+All feature branch should be merged to here.
+Can not push any commits here directly.
+
+#### qa
+
+It's merged form develop when needs qa testing.
+Can not push any commits here directly.
+
+#### feature
+
+It's related from issues.
+When you start to fix issue. you must make branch from the latest develop branch.
+It's merged to develop branch.
+
+naming should be `<type>/<name>`
+
+#### `<type>`
+
+```
+fix - Code changes linked to a known issue of bug.
+feature - Code changes linked to a known issue of feature.
+```
+
+#### `<name>`
+
+Always use dashes to separate words, and keep it short.
+
+#### Examples
+
+```
+feature/member-redux
+fix/home-button-crash
+```
+
 ## Git commit
 
 Don't do many tasks in one commit. Each task should be in each commit.The code will be more structured if you commit one by one.
