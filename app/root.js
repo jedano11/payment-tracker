@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+import { appEnv } from './config/env';
 import theme from './config/theme';
 import Listeners from './modules/listeners/listeners';
 import RootStackNavigator from './navigators/rootStackNavigator';
@@ -92,6 +93,15 @@ class App extends PureComponent<Props> {
   store: Object;
 
   render() {
+    if (!appEnv) {
+      console.error(
+        new Error(
+          'Environment is not selected. You need to type "source appcenter-post-clone.sh <ENV>" on project root before build.',
+        ),
+      );
+
+      return null;
+    }
     return (
       <Provider store={this.store}>
         <Listeners>
