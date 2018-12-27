@@ -23,7 +23,8 @@
   "rules": {
     "react/prefer-stateless-function": "off",
     "react/jsx-filename-extension": "off",
-    "import/prefer-default-export": 1
+    "import/prefer-default-export": 1,
+    "react/destructuring-assignment": "off"
   },
   "globals": {
     "Generator": true,

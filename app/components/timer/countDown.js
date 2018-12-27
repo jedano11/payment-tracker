@@ -48,12 +48,18 @@ class CountDown extends PureComponent<Props, State> {
   componentDidMount() {
     const { deadline } = this.props;
 
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.setState({
         text: getText(deadline),
       });
     }, 1000);
   }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
+  timer: any;
 
   render() {
     const { text } = this.state;

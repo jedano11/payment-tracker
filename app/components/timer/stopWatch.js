@@ -27,7 +27,7 @@ class StopWatch extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    setInterval(() => {
+    this.timer = setInterval(() => {
       const { seconds } = this.state;
       const current = seconds + 1;
 
@@ -37,6 +37,12 @@ class StopWatch extends PureComponent<Props, State> {
       });
     }, 1000);
   }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
+  timer: any;
 
   render() {
     const { text } = this.state;
