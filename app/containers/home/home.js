@@ -1,31 +1,27 @@
 import React, { PureComponent } from 'react';
-import {
-  View,
-  Text,
-  Platform,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 
 import { Screen } from '../../components/screen';
 import styles from './styles';
 import { sendRequest, cancelRequest } from '../../redux/request/request.action';
+import {
+  startDummySubscription,
+  stopDummySubscription,
+} from '../../redux/dummy/dummy.action';
 import { SAMPLE } from '../../redux/request/request.constants';
 import { selectRequestObject } from '../../redux/request/request.selector';
-import NavigationService from '../../modules/navigation/navigationService';
-
-const instructions = Platform.select({
-  ios: `Press Cmd+R to reload,${'\n'}Cmd+D or shake for dev menu`,
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
 
 type Props = {
   sendRequest: Function,
   cancelRequest: Function,
+
+  startDummySubscription: Function,
+  stopDummySubscription: Function,
+
+  count: number,
+  listening: boolean,
 
   login: Object,
   request1: Object,
@@ -34,6 +30,14 @@ type Props = {
 };
 
 class Home extends PureComponent<Props> {
+  subscribeToService = () => {
+    this.props.startDummySubscription();
+  };
+
+  unsubscribeFromService = () => {
+    this.props.stopDummySubscription();
+  };
+
   login = () => {
     this.props.sendRequest(
       SAMPLE,
@@ -81,12 +85,7 @@ class Home extends PureComponent<Props> {
     message: string,
     error: boolean,
   ) => (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: 'row',
-      }}
-    >
+    <View style={styles.row}>
       {shouldShowLoader && <ActivityIndicator />}
       <Text
         style={{
@@ -104,13 +103,30 @@ class Home extends PureComponent<Props> {
     </View>
   );
 
+  serviceButton = (listening: boolean) => {
+    let text = 'Start Service';
+    let onPress = this.subscribeToService;
+
+    if (listening) {
+      text = 'Stop Service';
+      onPress = this.unsubscribeFromService;
+    }
+
+    return (
+      <TouchableOpacity onPress={onPress}>
+        <Text>{text}</Text>
+      </TouchableOpacity>
+    );
+  };
+
   render() {
     return (
       <Screen>
         <View style={styles.container}>
-          <Text style={styles.welcome}>Welcome to React Native!</Text>
-          <Text style={styles.instructions}>To get started, edit App.js</Text>
-          <Text style={styles.instructions}>{instructions}</Text>
+          {this.serviceButton(this.props.listening)}
+          <Text style={styles.dots}>
+            {[...Array(this.props.count)].map(() => `.`)}
+          </Text>
           {this.row(
             'Login',
             this.login,
@@ -150,6 +166,8 @@ class Home extends PureComponent<Props> {
 }
 
 const mapStateToProps = state => ({
+  count: state.dummyStore.count,
+  listening: state.dummyStore.listening,
   login: selectRequestObject(state, SAMPLE, 'login'),
   request1: selectRequestObject(state, SAMPLE, 'request1'),
   request2: selectRequestObject(state, SAMPLE, 'request2'),
@@ -164,6 +182,8 @@ const mapDispatchToProps = dispatch => ({
     successAction?: Object,
   ) => dispatch(sendRequest(key, id, params, successAction)),
   cancelRequest: (key: string, id: string) => dispatch(cancelRequest(key, id)),
+  startDummySubscription: () => dispatch(startDummySubscription()),
+  stopDummySubscription: () => dispatch(stopDummySubscription()),
 });
 
 export default connect(

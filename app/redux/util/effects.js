@@ -1,4 +1,3 @@
-/* eslint-disable func-names */
 import { take, call, fork } from 'redux-saga/effects';
 
 /*
