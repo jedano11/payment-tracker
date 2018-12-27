@@ -2,9 +2,10 @@ import { reducerErrorToString } from '../util/common';
 import messages from './request.constants';
 import {
   SEND_REQUEST,
+  CANCEL_REQUEST,
   REQUEST_ERROR,
   REQUEST_COMPLETE,
-  DISMISS_ALERT,
+  DISMISS_RESULT,
 } from './request.action';
 import { LOG_OUT } from '../app/app.action';
 
@@ -24,6 +25,7 @@ export default (state: Object = initialState, action: Object) => {
             error: false,
             success: false,
             message: messages[action.payload.key].loaderMessage,
+            response: null,
           },
         },
       };
@@ -37,6 +39,7 @@ export default (state: Object = initialState, action: Object) => {
             error: false,
             success: true,
             message: messages[action.payload.key].successMessage,
+            response: action.payload.response,
           },
         },
       };
@@ -53,10 +56,12 @@ export default (state: Object = initialState, action: Object) => {
               action.payload.error,
               messages[action.payload.key].defaultErrorMessage,
             ),
+            response: null,
           },
         },
       };
-    case DISMISS_ALERT:
+    case CANCEL_REQUEST:
+    case DISMISS_RESULT:
       return {
         ...state,
         [action.payload.key]: {
@@ -66,6 +71,7 @@ export default (state: Object = initialState, action: Object) => {
             error: false,
             success: false,
             message: '',
+            response: null,
           },
         },
       };

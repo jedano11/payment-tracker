@@ -1,6 +1,6 @@
 const getRequestStore = state => state.requestStore;
 
-export const get = (state: Object, key: string, id: string) => {
+export const selectRequestObject = (state: Object, key: string, id: string) => {
   const store = getRequestStore(state);
 
   try {
@@ -13,6 +13,7 @@ export const get = (state: Object, key: string, id: string) => {
       error: false,
       success: false,
       message: '',
+      response: null,
     };
   } catch (err) {
     return {
@@ -20,6 +21,7 @@ export const get = (state: Object, key: string, id: string) => {
       error: false,
       success: false,
       message: '',
+      response: null,
     };
   }
 };

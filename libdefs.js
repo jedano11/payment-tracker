@@ -25,3 +25,15 @@ declare module 'react-native-extended-stylesheet' {
 declare module 'react-navigation' {
   declare module.exports: any;
 }
+declare module 'redux' {
+  declare module.exports: any;
+}
+declare module 'react-redux' {
+  declare module.exports: any;
+}
+declare module 'redux-logger' {
+  declare module.exports: any;
+}
+declare module 'redux-saga' {
+  declare module.exports: any;
+}

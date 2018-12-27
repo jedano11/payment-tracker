@@ -31,12 +31,19 @@ const back = (key: ?string) => {
   );
 };
 
+const dispatchNavigationAction = (action: Object) => {
+  if (navigator) {
+    navigator.dispatch(action);
+  }
+};
+
 // add other navigation functions that you need and export them
 
 const NavigationService = {
   navigate,
   back,
   setTopLevelNavigator,
+  dispatchNavigationAction,
 };
 
 export default NavigationService;
