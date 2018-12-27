@@ -18,4 +18,11 @@ export default EStyleSheet.create({
     color: '$textDefaultColor',
     marginBottom: 5,
   },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  dots: {
+    fontWeight: 'bold',
+  },
 });

@@ -1,4 +1,3 @@
-/* eslint-disable func-style */
 import { delay } from 'redux-saga';
 import { put, take, race, call } from 'redux-saga/effects';
 import { timeoutSeconds } from '../../config/settings';
@@ -13,7 +12,7 @@ export default function* sendRequest(action: Object): Generator<*, *, *> {
   yield console.log('YEAH!');
 }
 
-function* temp() {
+function* dummyApiRequest() {
   const shouldTimeout = Math.random() >= 0.5;
   const shouldNotFail = Math.random() >= 0.5;
 
@@ -45,7 +44,7 @@ function* shouldCancel(actionParam: Object) {
 
 export function* sample(action: Object): Generator<*, *, *> {
   const { response, timeout, cancelled } = yield race({
-    response: call(temp),
+    response: call(dummyApiRequest),
     timeout: call(delay, timeoutSeconds * 1000),
     cancelled: call(shouldCancel, action),
   });

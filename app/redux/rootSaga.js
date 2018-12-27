@@ -1,9 +1,8 @@
-/* eslint-disable complexity */
-/* eslint-disable func-style */
-/* eslint-disable max-statements */
 import { fork, takeEvery } from 'redux-saga/effects';
-import { takeLeadingByPayload } from './util/effects';
+import { takeLeading, takeLeadingByPayload } from './util/effects';
 import { SEND_REQUEST } from './request/request.action';
+import { START_DUMMY_SUBSCRIPTION } from './dummy/dummy.action';
+import { watchSubscription } from './dummy/dummy.saga';
 import defaultRequestSaga, { sample } from './request/request.saga';
 import { REHYDRATE_COMPLETE } from './app/app.action';
 import { SAMPLE } from './request/request.constants';
@@ -32,6 +31,7 @@ const navigate = (action: Object) => {
 
 export default function* rootSaga(): Generator<void, void, void> {
   yield takeLeadingByPayload(SEND_REQUEST, sendRequest);
+  yield takeEvery(START_DUMMY_SUBSCRIPTION, watchSubscription);
 
   yield takeEvery(REHYDRATE_COMPLETE, afterRehydrate);
   yield takeEvery('Navigation/NAVIGATE', navigate);
