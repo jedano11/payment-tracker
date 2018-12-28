@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react';
+import { AsyncStorage } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { applyMiddleware, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import { Provider } from 'react-redux';
+import { persistCombineReducers, persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/es/integration/react';
 import createSagaMiddleware from 'redux-saga';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -12,50 +15,20 @@ import RootStackNavigator from './navigators/rootStackNavigator';
 import NavigationService from './modules/navigation/navigationService';
 import combinedReducers from './redux/combinedReducers';
 import rootSaga from './redux/rootSaga';
+import { rehydrateComplete } from './redux/app/app.action';
 
 const AppContainer = createAppContainer(RootStackNavigator);
 
 type Props = {};
+
+const rootConfigKey = 'root';
 
 EStyleSheet.build(theme);
 
 class App extends PureComponent<Props> {
   constructor(props: Props) {
     super(props);
-    // console.log('#####')
-    // const { combineReducers } = props;
 
-    // const persistConfig = {
-    //   key: rootConfigKey,
-    //   // stateReconciler: autoMergeLevel2Immutable,
-    //   storage: AsyncStorage,
-    //   whitelist: props.persistedList,
-    //   debug: true,
-    // };
-
-    // const reducer = persistCombineReducers(persistConfig, combineReducers);
-
-    const sagaMiddleware = createSagaMiddleware();
-
-    // let middleware = null;
-
-    // // eslint-disable-next-line no-undef
-    // if (__DEV__) {
-    //   middleware = debugWrapper(
-    //     applyMiddleware(...[logger, sagaMiddleware, ...this.props.middlewares]),
-    //   );
-    // } else {
-    //   middleware = debugWrapper(
-    //     applyMiddleware(...[sagaMiddleware, ...this.props.middlewares]),
-    //   );
-    // }
-
-    // const customMiddleWare = store => next => action => {
-    //   console.log("Middleware triggered:", action);
-    //   next(action);
-    // };
-
-    // this should be the last middleware to add
     const logger = createLogger({
       // predicate, // if specified this function will be called before each action is processed with this middleware.
       collapsed: (getState, action, logEntry) => !logEntry.error,
@@ -77,30 +50,51 @@ class App extends PureComponent<Props> {
       // diffPredicate // (alpha) filter function for showing states diff, similar to `predicate`
     });
 
-    this.store = createStore(
-      combinedReducers,
-      applyMiddleware(...[sagaMiddleware, logger]),
-    );
+    const persistConfig = {
+      key: rootConfigKey,
+      storage: AsyncStorage,
+      whitelist: [],
+      debug: true,
+    };
 
-    // this.persistor = persistStore(this.store, {}, () => {
-    //   this.store.dispatch(rehydrateComplete());
-    // });
+    const reducer = persistCombineReducers(persistConfig, combinedReducers);
+
+    const sagaMiddleware = createSagaMiddleware();
+
+    let middleware = null;
+
+    // eslint-disable-next-line no-undef
+    if (__DEV__) {
+      middleware = applyMiddleware(...[sagaMiddleware, logger]);
+    } else {
+      middleware = applyMiddleware(...[sagaMiddleware]);
+    }
+
+    this.store = createStore(reducer, middleware);
+
+    this.persistor = persistStore(this.store, {}, () => {
+      this.store.dispatch(rehydrateComplete());
+    });
 
     sagaMiddleware.run(rootSaga);
   }
 
   store: Object;
 
+  persistor: Object;
+
   render() {
     return (
       <Provider store={this.store}>
-        <Listeners>
-          <AppContainer
-            ref={(navigatorRef: ?Object) => {
-              NavigationService.setTopLevelNavigator(navigatorRef);
-            }}
-          />
-        </Listeners>
+        <PersistGate persistor={this.persistor}>
+          <Listeners>
+            <AppContainer
+              ref={(navigatorRef: ?Object) => {
+                NavigationService.setTopLevelNavigator(navigatorRef);
+              }}
+            />
+          </Listeners>
+        </PersistGate>
       </Provider>
     );
   }

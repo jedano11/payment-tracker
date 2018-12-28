@@ -1,9 +1,12 @@
 import React, { PureComponent } from 'react';
-import { View, Text, Platform } from 'react-native';
+import { View, Text, Platform, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { Screen } from '../../components/screen';
 import { StopWatch, CountDown } from '../../components/timer';
+import { logOut } from '../../redux/auth/auth.action';
+import NavigationService from '../../modules/navigation/navigationService';
 import styles from './styles';
 
 const instructions = Platform.select({
@@ -13,7 +16,22 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-class Main extends PureComponent<*> {
+type Props = {
+  authenticated: boolean,
+  logOut: Function,
+};
+
+class Main extends PureComponent<Props> {
+  componentDidUpdate(prevProps) {
+    if (this.props.authenticated !== prevProps.authenticated) {
+      NavigationService.replace('Home');
+    }
+  }
+
+  logOut = () => {
+    this.props.logOut();
+  };
+
   render() {
     return (
       <Screen>
@@ -21,6 +39,9 @@ class Main extends PureComponent<*> {
           <Text style={styles.welcome}>Welcome to React Native!</Text>
           <Text style={styles.instructions}>To get started, edit App.js</Text>
           <Text style={styles.instructions}>{instructions}</Text>
+          <TouchableOpacity onPress={this.logOut}>
+            <Text>Log Out</Text>
+          </TouchableOpacity>
           <CountDown deadline={new Date()} />
           <CountDown deadline={moment().hour(20)} />
           <StopWatch />
@@ -30,4 +51,15 @@ class Main extends PureComponent<*> {
   }
 }
 
-export default Main;
+const mapStateToProps = state => ({
+  authenticated: state.authStore.authenticated,
+});
+
+const mapDispatchToProps = dispatch => ({
+  logOut: () => dispatch(logOut()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Main);
