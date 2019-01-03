@@ -43,3 +43,6 @@ declare module 'redux-persist' {
 declare module 'redux-persist/es/integration/react' {
   declare module.exports: any;
 }
+declare module 'react-native-config' {
+  declare module.exports: any;
+}

@@ -63,3 +63,6 @@ ios/Pods
 
 # app
 app/config/auth.js
+
+# iOS env
+ios/pre-build.sh
