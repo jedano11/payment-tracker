@@ -57,6 +57,10 @@ export const reducerErrorToString = (
   defaultMessage: string,
 ): string => {
   if (error) {
+    if (typeof error === 'string') {
+      return error;
+    }
+
     return 'Please implement';
   }
 

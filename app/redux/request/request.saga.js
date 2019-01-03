@@ -21,7 +21,8 @@ function* dummyApiRequest() {
   return { success: true };
 }
 
-function* shouldCancel(actionParam: Object) {
+/* `take` with conditional payload  */
+export function* shouldCancel(actionParam: Object): Generator<*, *, *> {
   let notFound = true;
 
   while (notFound) {
@@ -37,34 +38,39 @@ function* shouldCancel(actionParam: Object) {
   return true;
 }
 
+/* sample request saga */
 export default function* sendRequest(action: Object): Generator<*, *, *> {
-  const { response, timeout, cancelled } = yield race({
-    response: call(dummyApiRequest),
-    timeout: call(delay, timeoutSeconds * 1000),
-    cancelled: call(shouldCancel, action),
-  });
+  try {
+    const { response, timeout, cancelled } = yield race({
+      response: call(dummyApiRequest),
+      timeout: call(delay, timeoutSeconds * 1000),
+      cancelled: call(shouldCancel, action),
+    });
 
-  if (cancelled) {
-    return;
-  }
-
-  if (timeout) {
-    yield put(
-      requestError(action.payload.key, action.payload.id, 'Request timeout'),
-    );
-
-    return;
-  }
-
-  yield put(requestComplete(action.payload.key, action.payload.id, response));
-
-  if (action.payload.successAction) {
-    if (action.payload.successAction.constructor === Array) {
-      const effects = action.payload.successAction.map(el => put(el));
-
-      yield all(effects);
-    } else if (typeof action.payload.successAction === 'object') {
-      yield put(action.payload.successAction);
+    if (cancelled) {
+      return;
     }
+
+    if (timeout) {
+      yield put(
+        requestError(action.payload.key, action.payload.id, 'Request timeout'),
+      );
+
+      return;
+    }
+
+    yield put(requestComplete(action.payload.key, action.payload.id, response));
+
+    if (action.payload.successAction) {
+      if (action.payload.successAction.constructor === Array) {
+        const effects = action.payload.successAction.map(el => put(el));
+
+        yield all(effects);
+      } else if (typeof action.payload.successAction === 'object') {
+        yield put(action.payload.successAction);
+      }
+    }
+  } catch (err) {
+    yield put(requestError(action.payload.key, action.payload.id, err));
   }
 }

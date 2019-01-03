@@ -1,8 +1,8 @@
 # Redux
 
-[<navigation](navigation.md) - [home](index.md) - [selectors>](selectors.md)
+[<navigation](navigation.md) - [home](index.md) - [data persistence>](persistence.md)
 
-[Redux docs](https://redux.js.org/)
+Please read [Redux](https://redux.js.org/) docs.
 
 ## Actions
 
@@ -34,6 +34,32 @@ export default (state: Object = initialState, action: Object) => {
       return {
         ...state,
         count: state.count + action.payload.value,
+      };
+    default:
+      return state;
+  }
+};
+
+```
+
+## Handling arrays
+It is our convention to store arrays from api response as an object using the ids as keys.
+```
+import { arrayToObject } from '../app/redux/util/common';
+
+const initialState = {
+  jobs: 0,
+};
+
+export default (state: Object = initialState, action: Object) => {
+  switch (action.type) {
+    case 'JOBS_RESPONSE':
+      return {
+        ...state,
+        jobs: arrayToObject(
+          action.payload.response,
+          'id',
+        ),
       };
     default:
       return state;

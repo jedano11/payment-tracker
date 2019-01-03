@@ -1,11 +1,20 @@
-import appStore from './app/app.reducer';
-import authStore from './auth/auth.reducer';
-import requestStore from './request/request.reducer';
-import dummyStore from './dummy/dummy.reducer';
+import { AsyncStorage } from 'react-native';
+import { persistReducer } from 'redux-persist';
+
+import appReducer from './app/app.reducer';
+import authReducer from './auth/auth.reducer';
+import requestReducer from './request/request.reducer';
+import dummyReducer from './dummy/dummy.reducer';
+
+const authPersistConfig = {
+  key: 'authStore',
+  storage: AsyncStorage,
+  whitelist: ['authenticated'],
+};
 
 export default {
-  appStore,
-  authStore,
-  requestStore,
-  dummyStore,
+  appStore: appReducer,
+  authStore: persistReducer(authPersistConfig, authReducer),
+  requestStore: requestReducer,
+  dummyStore: dummyReducer,
 };

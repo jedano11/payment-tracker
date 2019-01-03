@@ -37,3 +37,9 @@ export default EStyleSheet.create({
   },
 });
 ```
+
+## measurement guidelines
+- TODO
+
+## images
+- TODO

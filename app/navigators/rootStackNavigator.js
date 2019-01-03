@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
 import { Home } from '../containers/home';
-import { Main } from '../containers/main';
+import SampleTabNavigator from './sampleTabNavigator';
 
 class InitialScreen extends PureComponent<*> {
   render() {
@@ -19,7 +19,7 @@ const RootStackNavigator = createStackNavigator({
     screen: Home,
   },
   Main: {
-    screen: Main,
+    screen: SampleTabNavigator,
   },
 });
 
