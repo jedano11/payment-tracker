@@ -37,6 +37,12 @@ declare module 'redux-logger' {
 declare module 'redux-saga' {
   declare module.exports: any;
 }
+declare module 'redux-persist' {
+  declare module.exports: any;
+}
+declare module 'redux-persist/es/integration/react' {
+  declare module.exports: any;
+}
 declare module 'react-native-config' {
   declare module.exports: any;
 }

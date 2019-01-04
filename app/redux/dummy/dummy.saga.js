@@ -30,7 +30,7 @@ export function* watchSubscription(): Generator<*, *, *> {
 
       if (stopSubscription) {
         channel.close();
-        break;
+        return;
       }
 
       yield put(action);

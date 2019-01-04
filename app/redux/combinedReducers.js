@@ -1,11 +1,20 @@
-import { combineReducers } from 'redux';
+import { AsyncStorage } from 'react-native';
+import { persistReducer } from 'redux-persist';
 
-import appStore from './app/app.reducer';
-import requestStore from './request/request.reducer';
-import dummyStore from './dummy/dummy.reducer';
+import appReducer from './app/app.reducer';
+import authReducer from './auth/auth.reducer';
+import requestReducer from './request/request.reducer';
+import dummyReducer from './dummy/dummy.reducer';
 
-export default combineReducers({
-  appStore,
-  requestStore,
-  dummyStore,
-});
+const authPersistConfig = {
+  key: 'authStore',
+  storage: AsyncStorage,
+  whitelist: ['authenticated'],
+};
+
+export default {
+  appStore: appReducer,
+  authStore: persistReducer(authPersistConfig, authReducer),
+  requestStore: requestReducer,
+  dummyStore: dummyReducer,
+};

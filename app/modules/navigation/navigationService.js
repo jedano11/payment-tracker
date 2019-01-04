@@ -1,4 +1,4 @@
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, StackActions } from 'react-navigation';
 
 let navigator = null;
 
@@ -13,6 +13,19 @@ const navigate = (routeName: string, params: ?Object) => {
 
   navigator.dispatch(
     NavigationActions.navigate({
+      routeName,
+      params,
+    }),
+  );
+};
+
+const replace = (routeName: string, params: ?Object) => {
+  if (!navigator) {
+    return;
+  }
+
+  navigator.dispatch(
+    StackActions.replace({
       routeName,
       params,
     }),
@@ -41,6 +54,7 @@ const dispatchNavigationAction = (action: Object) => {
 
 const NavigationService = {
   navigate,
+  replace,
   back,
   setTopLevelNavigator,
   dispatchNavigationAction,

@@ -1,4 +1,5 @@
 export const SEND_REQUEST = 'SEND_REQUEST';
+export const SEND_REQUEST_AWAIT = 'SEND_REQUEST_AWAIT';
 export const CANCEL_REQUEST = 'CANCEL_REQUEST';
 export const REQUEST_ERROR = 'REQUEST_ERROR';
 export const REQUEST_COMPLETE = 'REQUEST_COMPLETE';
@@ -8,7 +9,8 @@ export const sendRequest = (
   key: string,
   id: string,
   params: Object,
-  successAction?: Object,
+  successAction?: Object | Object[],
+  failureAction?: Object | Object[],
 ) => ({
   type: SEND_REQUEST,
   payload: {
@@ -16,6 +18,30 @@ export const sendRequest = (
     id,
     params,
     successAction,
+    failureAction,
+  },
+});
+
+/*
+ * does not fetch the request if the same request is still being fetched;
+ * uniqueness is based on `key` and `id` parameters;
+ * in case of dispatching sendRequestAwait('SOME_KEY', 'some_id') multiple times,
+ * while the first is executed, the next ones will be ignored
+ */
+export const sendRequestAwait = (
+  key: string,
+  id: string,
+  params: Object,
+  successAction?: Object | Object[],
+  failureAction?: Object | Object[],
+) => ({
+  type: SEND_REQUEST_AWAIT,
+  payload: {
+    key,
+    id,
+    params,
+    successAction,
+    failureAction,
   },
 });
 

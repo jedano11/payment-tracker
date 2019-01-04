@@ -6,4 +6,6 @@
 - [navigation](navigation.md)
 - [redux](redux.md)
 - [persisting data](persistence.md)
-- [side effects](saga.md)
+- [selectors](selectors.md)
+- [sagas](saga.md)
+- [testing](testing.md)
