@@ -1,6 +1,6 @@
 # Views
 
-[home](index.md) - [styling>](styling.md)
+[<github](github.md) - [home](index.md) - [styling>](styling.md)
 
 ## Components and Containers
 

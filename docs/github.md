@@ -1,6 +1,6 @@
 # GitHub
 
-[home](index.md) - [view>](view.md)
+[home](index.md) - [views>](views.md)
 
 ## Issue
 
