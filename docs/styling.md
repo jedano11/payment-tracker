@@ -38,8 +38,31 @@ export default EStyleSheet.create({
 });
 ```
 
+## viewing in multiple device sizes
+
+use ipad or android tab then follow below:  
+[root.js](../app/root.js)
+
+```
+// uncomment this
+<ComponentLayoutViewer>
+  <Provider store={this.store}>
+    ...
+  </Provider>
+</ComponentLayoutViewer>
+```
+
+[componentLayoutViewer/styles.js](../app/containers/componentLayoutViewer/styles.js)
+
+```
+// change array index
+export const device = screens[Object.keys(screens)[2]];
+```
+
 ## measurement guidelines
+
 - TODO
 
 ## images
+
 - TODO

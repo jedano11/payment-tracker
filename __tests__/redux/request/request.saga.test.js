@@ -1,4 +1,4 @@
-import { put, take } from 'redux-saga/effects';
+import { put, take, all } from 'redux-saga/effects';
 import defaultSendRequest, {
   shouldCancel,
 } from '../../../app/redux/request/request.saga';
@@ -83,5 +83,45 @@ describe('request saga tests', () => {
     gen.next({ response: undefined, timeout: undefined, cancelled: true });
 
     expect(gen.next().value).toBeUndefined();
+  });
+
+  it('sendRequest should dispatch success action', () => {
+    const successAction = {
+      type: 'OK',
+    };
+    const requestAction = sendRequest('LOGIN', '', {}, successAction);
+    const gen = defaultSendRequest(requestAction);
+
+    gen.next();
+
+    expect(
+      gen.next({
+        response: { success: true },
+        timeout: undefined,
+        cancelled: undefined,
+      }).value,
+    ).toEqual(put(requestComplete('LOGIN', '', { success: true })));
+
+    expect(gen.next().value).toEqual(put(successAction));
+  });
+
+  it('sendRequest should dispatch success actions', () => {
+    const action1 = { type: 'OK' };
+    const action2 = { type: 'DONE' };
+    const successActions = [action1, action2];
+    const requestAction = sendRequest('LOGIN', '', {}, successActions);
+    const gen = defaultSendRequest(requestAction);
+
+    gen.next();
+
+    expect(
+      gen.next({
+        response: { success: true },
+        timeout: undefined,
+        cancelled: undefined,
+      }).value,
+    ).toEqual(put(requestComplete('LOGIN', '', { success: true })));
+
+    expect(gen.next().value).toEqual(all([put(action1), put(action2)]));
   });
 });

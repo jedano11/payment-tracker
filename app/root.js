@@ -18,6 +18,8 @@ import combinedReducers from './redux/combinedReducers';
 import rootSaga from './redux/rootSaga';
 import { rehydrateComplete } from './redux/app/app.action';
 
+// import { ComponentLayoutViewer } from './containers/componentLayoutViewer';
+
 const AppContainer = createAppContainer(RootStackNavigator);
 
 type Props = {};
@@ -95,6 +97,7 @@ class App extends PureComponent<Props> {
       return null;
     }
     return (
+      // <ComponentLayoutViewer>
       <Provider store={this.store}>
         <PersistGate persistor={this.persistor}>
           <Listeners>
@@ -106,6 +109,7 @@ class App extends PureComponent<Props> {
           </Listeners>
         </PersistGate>
       </Provider>
+      // </ComponentLayoutViewer>
     );
   }
 }
