@@ -35,7 +35,19 @@ A step by step series of examples that tell you how to get a development env run
 
 ## Running the app
 
-TODO: multiple environments (dev, staging, production)
+### Set Environment from script
+**YOU MUST SELECT ENVIRONMENT BEFORE RUNNNING THE APP**
+
+Select Environment:  
+`source appcenter-post-clone.sh <ENV>  // ex.) dev`
+
+#### Options
+
+List Environments:  
+`appcenter-post-clone.sh envs`
+
+Clean Environments:  
+`appcenter-post-clone.sh clean`
 
 ### android emulator
 
