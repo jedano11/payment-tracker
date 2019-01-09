@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest",
+    "test": "jest --coverage",
     "flow": "flow focus-check",
     "eslint": "eslint",
     "prettier": "prettier",
@@ -76,6 +76,12 @@
     "preset": "react-native",
     "transform": {
       "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
-    }
+    },
+    "collectCoverageFrom": [
+      "app/redux/**/*.{js,jsx}",
+      "!app/redux/**/*.action.{js,jsx}",
+      "!app/redux/combinedReducers.js",
+      "!app/redux/rootSaga.js"
+    ]
   }
 }
