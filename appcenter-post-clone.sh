@@ -3,7 +3,7 @@
 DEV="dev"
 PROD="prod"
 
-if [ "$1" == ${DEV} ] || [ "$1" == ${PROD} ]
+if [[ "$1" == ${DEV} ]] || [[ "$1" == ${PROD} ]]
 then
   ENV=$1
   ENV_PATH=env/${ENV}
@@ -16,13 +16,13 @@ then
   export ENVFILE=${ENV_PATH}/.env
   echo "assigned env file"
   echo "Setting to ${ENV} environment - DONE"
-elif [ "$1" == "clean" ]
+elif [[ "$1" == "clean" ]]
 then
   echo "Cleaning environment settings"
   unset ENVFILE
   rm -f ios/scripts/pre-build.sh
   echo "Cleaning environment settings - DONE"
-elif [ "$1" == "envs" ]
+elif [[ "$1" == "envs" ]]
 then
   echo $DEV
   echo $PROD
