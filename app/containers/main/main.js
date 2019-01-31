@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text, Platform, TouchableOpacity } from 'react-native';
+import { Text, Platform, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -34,18 +34,16 @@ class Main extends PureComponent<Props> {
 
   render() {
     return (
-      <Screen>
-        <View style={styles.container}>
-          <Text style={styles.welcome}>Welcome to React Native!</Text>
-          <Text style={styles.instructions}>To get started, edit App.js</Text>
-          <Text style={styles.instructions}>{instructions}</Text>
-          <TouchableOpacity onPress={this.logOut}>
-            <Text>Log Out</Text>
-          </TouchableOpacity>
-          <CountDown deadline={new Date()} />
-          <CountDown deadline={moment().hour(20)} />
-          <StopWatch />
-        </View>
+      <Screen style={styles.container}>
+        <Text style={styles.welcome}>Welcome to React Native!</Text>
+        <Text style={styles.instructions}>To get started, edit App.js</Text>
+        <Text style={styles.instructions}>{instructions}</Text>
+        <TouchableOpacity onPress={this.logOut}>
+          <Text>Log Out</Text>
+        </TouchableOpacity>
+        <CountDown deadline={new Date()} />
+        <CountDown deadline={moment().hour(20)} />
+        <StopWatch />
       </Screen>
     );
   }

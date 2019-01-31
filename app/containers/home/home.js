@@ -130,40 +130,39 @@ class Home extends PureComponent<Props> {
 
   render() {
     return (
-      <Screen>
-        <View style={styles.container}>
-          {this.serviceButton(this.props.listening)}
-          <Text style={styles.dots}>
-            {[...Array(this.props.count)].map(() => `.`)}
-          </Text>
-          <TouchableOpacity onPress={this.login}>
-            <Text>Login</Text>
-          </TouchableOpacity>
-          {this.row(
-            'Request 1',
-            this.request1,
-            this.cancel1,
-            this.props.request1.sending,
-            this.props.request1.message,
-            this.props.request1.error,
-          )}
-          {this.row(
-            'Request 2',
-            this.request2,
-            this.cancel2,
-            this.props.request2.sending,
-            this.props.request2.message,
-            this.props.request2.error,
-          )}
-          {this.row(
-            'Request 3',
-            this.request3,
-            this.cancel3,
-            this.props.request3.sending,
-            this.props.request3.message,
-            this.props.request3.error,
-          )}
-        </View>
+      <Screen style={styles.container}>
+        {this.serviceButton(this.props.listening)}
+        <Text style={styles.dots}>
+          {[...Array(this.props.count)].map(() => `.`)}
+        </Text>
+        <TouchableOpacity onPress={this.login}>
+          <Text>Login</Text>
+        </TouchableOpacity>
+        {this.row(
+          'Request 1',
+          this.request1,
+          this.cancel1,
+          this.props.request1.sending,
+          this.props.request1.message,
+          this.props.request1.error,
+        )}
+        {this.row(
+          'Request 2',
+          this.request2,
+          this.cancel2,
+          this.props.request2.sending,
+          this.props.request2.message,
+          this.props.request2.error,
+        )}
+        {this.row(
+          'Request 3',
+          this.request3,
+          this.cancel3,
+          this.props.request3.sending,
+          this.props.request3.message,
+          this.props.request3.error,
+        )}
+
         <Alert
           showActivityIndicator={this.props.login.sending}
           visible={this.props.login.sending || this.props.login.error}
