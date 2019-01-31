@@ -16,9 +16,7 @@ class Screen extends PureComponent<Props> {
 
     return (
       <SafeAreaView style={styles.container}>
-        <View style={style}>
-          <View {...this.props} />
-        </View>
+        <View {...this.props} style={style} />
       </SafeAreaView>
     );
   }
