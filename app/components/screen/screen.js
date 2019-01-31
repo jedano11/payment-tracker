@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
 import styles from './styles';
 
 type Props = {
@@ -14,7 +14,13 @@ class Screen extends PureComponent<Props> {
   render() {
     const { style } = this.props;
 
-    return <View {...this.props} style={[styles.container, style]} />;
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={style}>
+          <View {...this.props} />
+        </View>
+      </SafeAreaView>
+    );
   }
 }
 
