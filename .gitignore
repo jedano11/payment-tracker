@@ -66,3 +66,6 @@ app/config/auth.js
 
 # iOS env
 ios/pre-build.sh
+
+# Jest test coverage
+coverage/
