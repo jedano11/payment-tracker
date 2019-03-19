@@ -6,6 +6,8 @@ Please read [Reselect](https://github.com/reduxjs/reselect) github page.
 
 Selectors are functions that take Redux state as an argument and return some data to pass to the component.
 
+The name of selector should have `select` as prefix. [reference](https://github.com/reduxjs/reselect/issues/355)
+
 `selector`
 ```
 const selectMyUserId = state => state.authStore.userId;
