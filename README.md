@@ -8,13 +8,13 @@ jump start your react native project
 
 - NodeJS v8+
 - Global node modules
-  - react-devtools
-  - eslint
-  - jest-cli
-  - react-native-cli
+  - [react-devtools](https://github.com/facebook/react-devtools)
+  - [eslint](https://eslint.org/docs/user-guide/getting-started)
+  - [jest-cli](https://www.npmjs.com/package/jest-cli)
+  - [react-native-cli](https://github.com/react-native-community/react-native-cli)
 - recommended (optional)
-  - nvm (to install multiple node versions)
-  - peco (open android emulators from the terminal)
+  - [nvm](https://github.com/creationix/nvm) (to install multiple node versions)
+  - [peco](https://github.com/peco/peco) (open android emulators from the terminal)
 
 ### VSCode
 
