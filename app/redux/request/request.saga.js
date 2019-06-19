@@ -32,20 +32,6 @@ export function* shouldCancel(
   return true;
 }
 
-function* dummyApiRequest() {
-  const shouldTimeout = Math.random() >= 0.5;
-  const shouldNotFail = Math.random() >= 0.5;
-
-  if (shouldTimeout) {
-    yield delay(4000);
-  } else {
-    yield delay(2000);
-    return { success: shouldNotFail };
-  }
-
-  return { success: true };
-}
-
 /* generic request saga */
 export function* handleOptions(
   action: Object,
@@ -78,29 +64,6 @@ export function* handleOptions(
       });
     }
   }
-}
-
-export function* fakeSendRequest(action: Object): Generator<*, *, *> {
-  const { response, timeout, cancelled } = yield race({
-    cancelled: call(shouldCancel, action, CANCEL_REQUEST),
-    response: call(dummyApiRequest),
-    timeout: delay(timeoutSeconds * 1000),
-  });
-
-  if (cancelled) {
-    return;
-  }
-
-  if (timeout) {
-    yield put(
-      requestError(action.payload.key, action.payload.id, 'Request timeout'),
-    );
-
-    return;
-  }
-
-  yield put(requestComplete(action.payload.key, action.payload.id, response));
-  yield handleOptions(action, response);
 }
 
 export default function* sendRequest(action: Object): Generator<*, *, *> {

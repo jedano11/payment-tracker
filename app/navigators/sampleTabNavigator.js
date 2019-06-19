@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation';
 import { Main } from '../containers/main';
+import { Left } from '../containers/left';
 import { green } from '../config/colors';
 
 const starImgSrc = require('../assets/demo/star.png');
@@ -21,12 +22,6 @@ const styles = {
     height: 30,
   },
 };
-
-const Left = () => (
-  <View style={styles.container}>
-    <Text style={styles.text}>Left</Text>
-  </View>
-);
 
 const Right = () => (
   <View style={styles.container}>
@@ -80,7 +75,7 @@ const tabNavigatorScreens = {
 };
 
 const SampleTabNavigator = createBottomTabNavigator(tabNavigatorScreens, {
-  initialRouteName: 'Middle',
+  initialRouteName: 'Left',
   swipeEnabled: false,
   tabBarOptions: {
     initialLayout: {

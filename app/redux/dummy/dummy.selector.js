@@ -1,4 +1,4 @@
-import { LOGIN, SAMPLE } from '../request/request.constants';
+import { LOGIN, SAMPLE, SAMPLE_DEBOUNCE } from '../request/request.constants';
 import { selectRequestObject } from '../request/request.selector';
 import type { GlobalState } from '../util/types';
 
@@ -13,3 +13,6 @@ export const request2State = (state: GlobalState) =>
 
 export const request3State = (state: GlobalState) =>
   selectRequestObject(state, SAMPLE, 'request3');
+
+export const sampleDebouceRequest3State = (state: GlobalState) =>
+  selectRequestObject(state, SAMPLE_DEBOUNCE, '');
