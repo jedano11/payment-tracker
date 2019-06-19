@@ -1,3 +1,4 @@
+import type { Action } from '../util/types';
 import {
   PONG,
   START_DUMMY_SUBSCRIPTION,
@@ -9,7 +10,7 @@ const initialState = {
   count: 0,
 };
 
-export default (state: Object = initialState, action: Object) => {
+export default (state: Object = initialState, action: Action) => {
   switch (action.type) {
     case PONG:
       return {

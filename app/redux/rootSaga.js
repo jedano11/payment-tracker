@@ -3,7 +3,7 @@ import { takeLeadingByPayload } from './util/effects';
 import { SEND_REQUEST, SEND_REQUEST_AWAIT } from './request/request.action';
 import { START_DUMMY_SUBSCRIPTION } from './dummy/dummy.action';
 import { watchSubscription } from './dummy/dummy.saga';
-import defaultRequestSaga from './request/request.saga';
+import defaultRequestSaga, { fakeSendRequest } from './request/request.saga';
 import { REHYDRATE_COMPLETE } from './app/app.action';
 import { SAMPLE, LOGIN } from './request/request.constants';
 import NavigationService from '../modules/navigation/navigationService';
@@ -25,7 +25,7 @@ function* sendRequest(action: Object) {
   switch (action.payload.key) {
     case SAMPLE:
     case LOGIN:
-      yield fork(defaultRequestSaga, action);
+      yield fork(fakeSendRequest, action);
       break;
     default:
       yield fork(defaultRequestSaga, action);

@@ -25,7 +25,25 @@ declare module 'react-native-extended-stylesheet' {
 declare module 'react-navigation' {
   declare module.exports: any;
 }
+declare module 'axios' {
+  declare module.exports: any;
+}
 declare module 'redux' {
+  declare module.exports: any;
+}
+declare module 'firebase/app' {
+  declare module.exports: any;
+}
+declare module 'firebase/auth' {
+  declare module.exports: any;
+}
+declare module 'firebase/firestore' {
+  declare module.exports: any;
+}
+declare module 'firebase/storage' {
+  declare module.exports: any;
+}
+declare module 'firebase/messaging' {
   declare module.exports: any;
 }
 declare module 'react-redux' {
