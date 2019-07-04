@@ -63,6 +63,7 @@ ios/Pods
 
 # app
 app/config/auth.js
+app/config/firebaseCredentials.json
 
 # iOS env
 ios/pre-build.sh

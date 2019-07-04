@@ -1,19 +1,21 @@
-import { put, take, all } from 'redux-saga/effects';
+import { all, put, take } from 'redux-saga/effects';
+import {
+  cancelRequest,
+  CANCEL_REQUEST,
+  requestComplete,
+  requestError,
+  sendRequest,
+} from '../../../app/redux/request/request.action';
 import defaultSendRequest, {
+  handleOptions,
   shouldCancel,
 } from '../../../app/redux/request/request.saga';
-import {
-  sendRequest,
-  cancelRequest,
-  requestError,
-  requestComplete,
-} from '../../../app/redux/request/request.action';
 
 describe('request saga tests', () => {
   it('shouldCancel should return true', () => {
     const requestAction = sendRequest('LOGIN', '', {});
     const cancelRequestAction = cancelRequest('LOGIN', '');
-    const gen = shouldCancel(requestAction);
+    const gen = shouldCancel(requestAction, CANCEL_REQUEST);
 
     gen.next(cancelRequestAction);
     expect(gen.next(cancelRequestAction).value).toBe(true);
@@ -22,7 +24,7 @@ describe('request saga tests', () => {
   it('shouldCancel should not return', () => {
     const requestAction = sendRequest('LOGIN', '', {});
     const cancelRequestAction = cancelRequest('LOGIN', 'asdf');
-    const gen = shouldCancel(requestAction);
+    const gen = shouldCancel(requestAction, CANCEL_REQUEST);
 
     gen.next(cancelRequestAction);
     expect(gen.next(cancelRequestAction).value).toEqual(
@@ -31,7 +33,14 @@ describe('request saga tests', () => {
   });
 
   it('sendRequest should dispatch results', () => {
-    const requestAction = sendRequest('LOGIN', '', {});
+    const requestAction = sendRequest(
+      'LOGIN',
+      '',
+      { method: 'GET', route: '/', params: {} },
+      {
+        responseActionName: 'LOGIN_SUCCESS',
+      },
+    );
     const gen = defaultSendRequest(requestAction);
 
     gen.next();
@@ -44,11 +53,38 @@ describe('request saga tests', () => {
       }).value,
     ).toEqual(put(requestComplete('LOGIN', '', { success: true })));
 
+    expect(gen.next().value).toEqual(
+      handleOptions(requestAction, { success: true }),
+    );
+
+    expect(gen.next().value).toBeUndefined();
+  });
+
+  it('sendRequest should dispatch results #handleOptions', () => {
+    const requestAction = sendRequest(
+      'LOGIN',
+      '',
+      { method: 'GET', route: '/', params: {} },
+      {
+        responseActionName: 'LOGIN_SUCCESS',
+      },
+    );
+    const response = { success: true };
+
+    const gen = handleOptions(requestAction, response);
+
+    expect(gen.next().value).toEqual(
+      put({
+        type: 'LOGIN_SUCCESS',
+        payload: { response: { success: true }, key: 'LOGIN', id: '' },
+      }),
+    );
+
     expect(gen.next().value).toBeUndefined();
   });
 
   it('sendRequest should timeout', () => {
-    const requestAction = sendRequest('LOGIN', '', {});
+    const requestAction = sendRequest('LOGIN', '', { method: 'GET' });
     const gen = defaultSendRequest(requestAction);
 
     gen.next();
@@ -62,7 +98,7 @@ describe('request saga tests', () => {
   });
 
   it('sendRequest should catch error', () => {
-    const requestAction = sendRequest('LOGIN', '', {});
+    const requestAction = sendRequest('LOGIN', '', { method: 'GET' });
     const gen = defaultSendRequest(requestAction);
 
     gen.next();
@@ -75,7 +111,7 @@ describe('request saga tests', () => {
   });
 
   it('sendRequest should return when cancelled', () => {
-    const requestAction = sendRequest('LOGIN', '', {});
+    const requestAction = sendRequest('LOGIN', '', { method: 'GET' });
     const gen = defaultSendRequest(requestAction);
 
     gen.next();
@@ -86,10 +122,16 @@ describe('request saga tests', () => {
   });
 
   it('sendRequest should dispatch success action', () => {
-    const successAction = {
-      type: 'OK',
-    };
-    const requestAction = sendRequest('LOGIN', '', {}, successAction);
+    const requestAction = sendRequest(
+      'LOGIN',
+      '',
+      { method: 'GET', route: '/', params: {} },
+      {
+        successAction: {
+          type: 'LOGIN_SUCCESS',
+        },
+      },
+    );
     const gen = defaultSendRequest(requestAction);
 
     gen.next();
@@ -102,14 +144,46 @@ describe('request saga tests', () => {
       }).value,
     ).toEqual(put(requestComplete('LOGIN', '', { success: true })));
 
-    expect(gen.next().value).toEqual(put(successAction));
+    expect(gen.next().value).toEqual(
+      handleOptions(requestAction, { success: true }),
+    );
+  });
+
+  it('sendRequest should dispatch success action #handleOptions', () => {
+    const requestAction = sendRequest(
+      'LOGIN',
+      '',
+      { method: 'GET', route: '/', params: {} },
+      {
+        successAction: {
+          type: 'LOGIN_SUCCESS',
+        },
+      },
+    );
+
+    const response = { success: true };
+
+    const gen = handleOptions(requestAction, response);
+
+    expect(gen.next().value).toEqual(
+      put({
+        type: 'LOGIN_SUCCESS',
+      }),
+    );
   });
 
   it('sendRequest should dispatch success actions', () => {
     const action1 = { type: 'OK' };
     const action2 = { type: 'DONE' };
     const successActions = [action1, action2];
-    const requestAction = sendRequest('LOGIN', '', {}, successActions);
+    const requestAction = sendRequest(
+      'LOGIN',
+      '',
+      { method: 'GET' },
+      {
+        successAction: successActions,
+      },
+    );
     const gen = defaultSendRequest(requestAction);
 
     gen.next();
@@ -121,6 +195,27 @@ describe('request saga tests', () => {
         cancelled: undefined,
       }).value,
     ).toEqual(put(requestComplete('LOGIN', '', { success: true })));
+
+    expect(gen.next().value).toEqual(
+      handleOptions(requestAction, { success: true }),
+    );
+  });
+
+  it('sendRequest should dispatch success actions #', () => {
+    const action1 = { type: 'OK' };
+    const action2 = { type: 'DONE' };
+    const successActions = [action1, action2];
+    const requestAction = sendRequest(
+      'LOGIN',
+      '',
+      { method: 'GET' },
+      {
+        successAction: successActions,
+      },
+    );
+    const response = { success: true };
+
+    const gen = handleOptions(requestAction, response);
 
     expect(gen.next().value).toEqual(all([put(action1), put(action2)]));
   });

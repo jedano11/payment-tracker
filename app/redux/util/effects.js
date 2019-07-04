@@ -1,4 +1,5 @@
-import { take, call, fork } from 'redux-saga/effects';
+import { take, call, fork, put } from 'redux-saga/effects';
+import { overrideLatest } from '../request/request.action';
 
 /*
  ignores action while sage is not done
@@ -9,7 +10,7 @@ import { take, call, fork } from 'redux-saga/effects';
  takeLeading(SUBMIT_FORM, submitFormSaga);
  */
 export const takeLeading = (patternOrChannel: any, saga: any, ...args: any) =>
-  fork(function*() {
+  fork(function* submitControl() {
     while (true) {
       const action = yield take(patternOrChannel);
 
@@ -29,7 +30,7 @@ export const takeLeadingByPayload = (
   saga: any,
   ...args: any
 ) =>
-  fork(function*() {
+  fork(function* checkPayloadIdKey() {
     if (!leadingActions[patternOrChannel]) {
       leadingActions[patternOrChannel] = {};
     }
@@ -39,7 +40,7 @@ export const takeLeadingByPayload = (
       const objKey = `${action.payload.key}_${action.payload.id}`;
 
       if (!leadingActions[patternOrChannel][objKey]) {
-        yield fork(function*() {
+        yield fork(function* implementAction() {
           leadingActions[patternOrChannel][objKey] = {
             ...action,
           };
@@ -47,6 +48,50 @@ export const takeLeadingByPayload = (
           yield call(saga, ...args.concat(action));
 
           delete leadingActions[patternOrChannel][objKey];
+        });
+      }
+    }
+  });
+
+/*
+ takeLatest with conditional payload
+ */
+const latestActions = {};
+
+export const takeLatestByPayload = (
+  patternOrChannel: any,
+  saga: any,
+  ...args: any
+) =>
+  fork(function* newGen() {
+    if (!latestActions[patternOrChannel]) {
+      latestActions[patternOrChannel] = {};
+    }
+
+    while (true) {
+      const action = yield take(patternOrChannel);
+      const objKey = `${action.payload.key}_${action.payload.id}`;
+
+      if (!latestActions[patternOrChannel][objKey]) {
+        yield fork(function* callSaga() {
+          latestActions[patternOrChannel][objKey] = {
+            ...action,
+          };
+
+          yield call(saga, ...args.concat(action));
+
+          delete latestActions[patternOrChannel][objKey];
+        });
+      } else {
+        yield put(overrideLatest(action.payload.key, action.payload.id));
+        yield fork(function* callSaga() {
+          latestActions[patternOrChannel][objKey] = {
+            ...action,
+          };
+
+          yield call(saga, ...args.concat(action));
+
+          delete latestActions[patternOrChannel][objKey];
         });
       }
     }

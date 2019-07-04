@@ -34,7 +34,7 @@ export const arrayToObject = (
  * @param {[string]} props - array of property names to be removed from Object
  * @returns Object
  */
-export const deleteProperties = (object: Object, props: [string]): Object => ({
+export const deleteProperties = (object: Object, props: string[]): Object => ({
   ...Object.keys(object)
     .filter(key => props.indexOf(key) < 0)
     .reduce(

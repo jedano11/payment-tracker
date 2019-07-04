@@ -1,4 +1,5 @@
-import { REHYDRATE_COMPLETE, INITIALIZED, LOG_OUT } from './app.action';
+import type { Action } from '../util/types';
+import { INITIALIZED, LOG_OUT, REHYDRATE_COMPLETE } from './app.action';
 
 const initialState = {
   rehydrated: false,
@@ -6,7 +7,7 @@ const initialState = {
   wasLoggedOut: false,
 };
 
-export default (state: Object = initialState, action: Object) => {
+export default (state: Object = initialState, action: Action) => {
   switch (action.type) {
     case LOG_OUT:
       return {

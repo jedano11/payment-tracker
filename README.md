@@ -36,10 +36,11 @@ A step by step series of examples that tell you how to get a development env run
 ## Running the app
 
 ### Set Environment from script
+
 **YOU MUST SELECT ENVIRONMENT BEFORE RUNNNING THE APP**
 
 Select Environment:  
-`source appcenter-post-clone.sh <ENV>  // ex.) dev`
+`source appcenter-post-clone.sh <ENV> // ex.) dev`
 
 #### Options
 
@@ -103,12 +104,75 @@ MAJOR version when you make incompatible API changes,
 MINOR version when you add functionality in a backwards-compatible manner, and  
 PATCH version when you make backwards-compatible bug fixes.
 
-## Project README
-
-[App.md](App.md)
-
 ## Authors
 
 -
 
 ## [Documentation](docs/index.md)
+
+---
+
+## Management
+
+### Pre development
+
+- [ ] Create test cases for each feature
+- [ ] Plan directory structure beforehand
+- [ ] Plan components structure beforehand
+- [ ] Write unit tests beforehand
+- [ ] Pre configure staging and production environments
+- [ ] prepare dictionary file strings
+- [ ] database structure
+- [ ] pre-determine app flow and behavior
+- [ ] spikes for each feature to test if it can be done
+
+### development
+
+- [ ] use BEM
+- [ ] never hard code strings
+- [ ] always check multiple screen sizes
+- [ ] check on devices with notch
+- [ ] Test the deployed code
+- [ ] upper camel case file names for components, class Home extends Component Home.tsx
+
+### Testing
+
+- [ ] TODO
+
+### UI
+
+- [ ] fonts
+- [ ] margins
+- [ ] colors
+- [ ] orientation change (if supported by app)
+- [ ] favicon (web)
+
+### Enhancments (todo):
+
+- [ ] TODO
+
+### Test case sample
+
+Scenario: User tries to log in with invalid credentials
+
+Conditions:
+
+- [ ] Valid email address format
+
+- [ ] Valid password length
+
+Expected:
+
+- [ ] Phone receives 6 digit pin
+
+Tested on:
+
+- [ ] iphone 6
+
+- [ ] iphone X
+
+- [ ] iphone XR
+
+- [ ] android
+
+- [ ] android with notch

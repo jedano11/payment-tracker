@@ -1,4 +1,3 @@
-/* eslint-disable max-statements */
 import { isValidEmailFormat } from '../../../app/redux/util/validation';
 
 describe('utilies used by reducers and selectors', () => {

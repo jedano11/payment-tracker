@@ -34,7 +34,7 @@ describe('request reducer tests', () => {
           success: false,
         },
       },
-    }).toEqual(reducer(undefined, cancelRequest(LOGIN, '', {})));
+    }).toEqual(reducer(undefined, cancelRequest(LOGIN, '')));
   });
 
   it('should ', () => {
@@ -48,7 +48,7 @@ describe('request reducer tests', () => {
           success: false,
         },
       },
-    }).toEqual(reducer(undefined, requestError(LOGIN, '', null, {})));
+    }).toEqual(reducer(undefined, requestError(LOGIN, '', null)));
   });
 
   it('should ', () => {
@@ -62,7 +62,7 @@ describe('request reducer tests', () => {
           success: false,
         },
       },
-    }).toEqual(reducer(undefined, requestError(LOGIN, '', null, {})));
+    }).toEqual(reducer(undefined, requestError(LOGIN, '', null)));
   });
 
   it('should ', () => {
@@ -92,6 +92,6 @@ describe('request reducer tests', () => {
           success: false,
         },
       },
-    }).toEqual(reducer(undefined, dismissResult(LOGIN, '', {})));
+    }).toEqual(reducer(undefined, dismissResult(LOGIN, '')));
   });
 });
