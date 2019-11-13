@@ -124,7 +124,4 @@ const mapDispatchToProps: ActionDispatcher => DispatchProps = dispatch => ({
   sampleSendRequestLatest: () => dispatch(sampleSendRequestLatest()),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Left);
+export default connect(mapStateToProps, mapDispatchToProps)(Left);

@@ -64,3 +64,12 @@ declare module 'redux-persist/es/integration/react' {
 declare module 'react-native-config' {
   declare module.exports: any;
 }
+declare module '@react-native-community/netinfo' {
+  declare module.exports: any;
+}
+declare module 'react-navigation-stack' {
+  declare module.exports: any;
+}
+declare module 'react-navigation-tabs' {
+  declare module.exports: any;
+}

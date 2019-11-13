@@ -8,9 +8,9 @@
     "start": "react-native start",
     "test": "jest --coverage",
     "lint": "eslint .",
-    "flow": "flow focus-check",
-    "eslint": "eslint",
-    "prettier": "prettier",
+    "flow": "flow",
+    "eslint": "eslint \"./**/*.{jsx,js}\"",
+    "prettier": "prettier --check \"./**/*.{jsx,js,json,md,ts}\"",
     "react-devtool": "react-devtools",
     "redux-devtool": "remotedev",
     "log:android": "react-native log-android",
@@ -46,7 +46,7 @@
     "@react-native-community/eslint-config": "^0.0.5",
     "babel-jest": "^24.9.0",
     "eslint": "^6.5.1",
-    "flow-bin": "^0.111.3",
+    "flow-bin": "^0.105.0",
     "husky": "^3.0.9",
     "jest": "^24.9.0",
     "lint-staged": "^9.4.2",
@@ -56,19 +56,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "flow && npm run eslint"
     }
-  },
-  "lint-staged": {
-    "*.{jsx,js}": [
-      "flow focus-check",
-      "eslint --fix",
-      "git add"
-    ],
-    "*.{jsx,js,json,md,ts}": [
-      "prettier --write",
-      "git add"
-    ]
   },
   "jest": {
     "preset": "react-native",
