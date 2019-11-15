@@ -110,7 +110,7 @@ class Home extends PureComponent<Props> {
       <Screen style={styles.container}>
         {this.serviceButton(this.props.listening)}
         <Text style={styles.dots}>
-          {[...Array(this.props.count)].map(() => `.`)}
+          {[...Array(this.props.count)].map(() => '.')}
         </Text>
         <TouchableOpacity onPress={this.props.login}>
           <Text>Login</Text>
@@ -184,7 +184,4 @@ const mapDispatchToProps: ActionDispatcher => DispatchProps = dispatch => ({
   stopDummySubscription: () => dispatch(stopDummySubscription()),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

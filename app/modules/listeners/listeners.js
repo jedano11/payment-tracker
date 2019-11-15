@@ -1,6 +1,7 @@
 import type { Element } from 'react';
 import React from 'react';
-import { AppState, BackHandler, NetInfo } from 'react-native';
+import { AppState, BackHandler } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 
 import NavigationService from '../navigation/navigationService';
 

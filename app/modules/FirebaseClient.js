@@ -1,18 +1,19 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
-import 'firebase/storage';
-import 'firebase/messaging';
-import { target } from '../config/env';
-import firebaseCredentials from '../config/firebaseCredentials';
+// import firebase from 'react-native-firebase';
 
 class FirebaseClient {
   instance: Object;
 
   init = () => {
-    firebase.initializeApp(firebaseCredentials[target]);
-
-    this.instance = firebase;
+    // this.instance = firebase;
+    this.instance = {
+      firestore: () => ({
+        collection: () => ({
+          get: () => ({
+            docs: [],
+          }),
+        }),
+      }),
+    };
   };
 
   askForPermissioToReceiveNotifications = async () => {
